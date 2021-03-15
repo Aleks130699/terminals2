@@ -48,10 +48,10 @@ class iobroker extends app_player_addon {
     public function ping_mediaservice($host)
     {
         if (ping($host)) {
-		$this->reset_properties();
-		$url = $this->address . "/api/get.json";
-		if (getURL($url,0)) {
+		$connection = @fsockopen($this->terminal['HOST'],$this->terminal['PLAYER_PORT'],$errno,$errstr,1);
+		if (is_resource($connection)) {
 		    $this->success = TRUE;
+		    fclose($connection);
 		} else {
 		    $this->success = FALSE;
 		}
